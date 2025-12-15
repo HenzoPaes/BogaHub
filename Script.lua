@@ -13,12 +13,12 @@ syde:Load({
 			Style = 'GitHub';
 			Size = "Large";
 			CopyToClip = true
-		}
+		},
 	},
 	ConfigurationSaving = {
 		Enabled = true,
-		FolderName = 'BogaHub',
-		FileName = "BogaHub"
+		FolderName = 'SydeDemo',
+		FileName = "config"
 	},
 })
 
