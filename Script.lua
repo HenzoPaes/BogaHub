@@ -29,6 +29,8 @@ local Window = syde:Init({
 
 local MainTab  = Window:InitTab({ Title = 'Main' })
 local GameTab  = Window:InitTab({ Title = 'Game' })
+local MiscTab  = Window:InitTab({ Title = 'Misc' })
+local AvailableTab  = Window:InitTab({ Title = 'Available Games' })
 
 MainTab:Section('Github')
 MainTab:Paragraph({
@@ -39,7 +41,6 @@ MainTab:Paragraph({
 	Title = 'Link',
 	Content = 'https://github.com/BogaDev221/BogaHub'
 })
-
 local InputsSection = GameTab:Section('Scripts')
 
 local PID = game.PlaceId
@@ -54,6 +55,7 @@ if PID == 79137923166591 then -- Slap
 			print('Script selected:', option)
 
 			if option == "Insta Dodge (PC)" then
+				-- tenta carregar o script com pcall para não quebrar a UI
 				local ok, err = pcall(function()
 					loadstring(game:HttpGet("https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium", true))()
 				end)
@@ -61,7 +63,7 @@ if PID == 79137923166591 then -- Slap
 					warn("Failed to load script:", err)
 					syde:Notify({
 						Title = 'Error',
-						Content = 'Falha ao carregar o script',
+						Content = '',
 						Duration = 3
 					})
 					return
@@ -78,8 +80,30 @@ if PID == 79137923166591 then -- Slap
 else
 	InputsSection:Paragraph({
 		Title = 'Game not supported',
-		Content = 'This script only runs in Slap. PlaceId detected: ' .. tostring(PID)
+		Content = 'PlaceId detected: ' .. tostring(PID)
 	})
 end
+
+MiscTab:Keybind({
+	Title = 'Toggle UI',
+	Key = Enum.KeyCode.K,
+	CallBack = function()
+		print('UI toggle keybind activated!')
+		syde:Notify({
+			Title = 'Keybind Pressed',
+			Content = 'UI toggle key was pressed!',
+			Duration = 2
+		})
+	end,
+})
+MiscTab:Paragraph({
+	Title = 'Others Scripts',
+	Content = 'Soon.'
+})
+
+AvailableTab:Paragraph({
+	Title = 'Available',
+	Content = '[UPD] Slap./n others soon.'
+})
 
 syde:LoadSaveConfig()
