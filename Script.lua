@@ -44,45 +44,37 @@ MainTab:Paragraph({
 local InputsSection = GameTab:Section('Scripts')
 
 local PID = game.PlaceId
-print("DEBUG: PlaceId =", PID)
+print("DEBUG PlaceId:", PID)
 
-if PID == 79137923166591 then -- Slap
+if PID == 6403373529 then -- EXEMPLO, TROQUE PELO REAL
 	InputsSection:Dropdown({
 		Title = '[UPD] Slap',
-		Options = {'Insta Dodge (PC)', 'Soon', 'Soon', 'Soon'},
+		Options = {'Insta Dodge (PC)'},
 		PlaceHolder = 'Select a script...',
 		CallBack = function(option)
-			print('Script selected:', option)
-
-			if option == "Insta Dodge (PC)" then
-				-- tenta carregar o script com pcall para não quebrar a UI
-				local ok, err = pcall(function()
-					loadstring(game:HttpGet("https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium", true))()
+			if option == 'Insta Dodge (PC)' then
+				pcall(function()
+					loadstring(game:HttpGet(
+						'https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium',
+						true
+					))()
 				end)
-				if not ok then
-					warn("Failed to load script:", err)
-					syde:Notify({
-						Title = 'Error',
-						Content = '',
-						Duration = 3
-					})
-					return
-				end
-			end
 
-			syde:Notify({
-				Title = 'Loading Script',
-				Content = 'Selected: ' .. option,
-				Duration = 2
-			})
+				syde:Notify({
+					Title = 'Loading Script',
+					Content = 'Insta Dodge loaded!',
+					Duration = 2
+				})
+			end
 		end,
 	})
 else
 	InputsSection:Paragraph({
 		Title = 'Game not supported',
-		Content = 'PlaceId detected: ' .. tostring(PID)
+		Content = 'Detected PlaceId: ' .. PID
 	})
 end
+
 
 MiscTab:Keybind({
 	Title = 'Toggle UI',
