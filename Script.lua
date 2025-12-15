@@ -9,17 +9,24 @@ syde:Load({
 	AutoLoad = false,
 	Socials = {
 		{
-			Name = 'GitHub';
-			Style = 'GitHub';
+			Name = 'Discord';
+			Style = 'Discord';
 			Size = "Large";
 			CopyToClip = true
 		},
+		{
+			Name = 'GitHub';
+			Style = 'GitHub';
+			Size = "Small";
+			CopyToClip = true
+		}
 	},
 	ConfigurationSaving = {
 		Enabled = true,
-		FolderName = 'SydeDemo',
+		FolderName = 'BogaHub',
 		FileName = "config"
 	},
+	
 })
 
 local Window = syde:Init({
@@ -37,17 +44,28 @@ MainTab:Paragraph({
 	Title = 'Welcome to Boga Hub',
 	Content = 'Boga Hub was made for Roblox exploiting, developed by @boda_Grande, and is open-source on GitHub.'
 })
-MainTab:Paragraph({
-	Title = 'Link',
-	Content = 'https://github.com/BogaDev221/BogaHub'
+MainTab:Button({
+	Title = 'Link', -- Set Title
+	Description = 'Copy github link', -- Description (Optional)
+	Type = 'Hold', -- Type [ Default, Hold ] (Optional)
+	HoldTime = 1, -- Hold Time When Type is *Hold
+	CallBack = function()
+	       setclipboard("https://github.com/BogaDev221/BogaHub")
+		   syde:Notify({
+					Title = 'Copied',
+					Content = 'link has been copied!',
+					Duration = 2
+				})
+	end,
 })
-local InputsSection = GameTab:Section('Scripts')
+
+GameTab:Section('Scripts')
 
 local PID = game.PlaceId
 print("DEBUG PlaceId:", PID)
 
-if PID == 79137923166591 then
-	InputsSection:Dropdown({
+if PID == 79137923166591 then -- slap
+	GameTab:Dropdown({
 		Title = '[UPD] Slap',
 		Options = {'Insta Dodge (PC)'},
 		PlaceHolder = 'Select a script...',
@@ -62,32 +80,20 @@ if PID == 79137923166591 then
 
 				syde:Notify({
 					Title = 'Loading Script',
-					Content = 'Insta Dodge loaded!',
+					Content = 'Insta Dodge Loading!',
 					Duration = 2
 				})
 			end
 		end,
 	})
 else
-	InputsSection:Paragraph({
+	GameTab:Paragraph({
 		Title = 'Game not supported',
 		Content = 'Detected PlaceId: ' .. PID
 	})
 end
 
 
-MiscTab:Keybind({
-	Title = 'Toggle UI',
-	Key = Enum.KeyCode.K,
-	CallBack = function()
-		print('UI toggle keybind activated!')
-		syde:Notify({
-			Title = 'Keybind Pressed',
-			Content = 'UI toggle key was pressed!',
-			Duration = 2
-		})
-	end,
-})
 MiscTab:Paragraph({
 	Title = 'Others Scripts',
 	Content = 'Soon.'
@@ -95,7 +101,8 @@ MiscTab:Paragraph({
 
 AvailableTab:Paragraph({
 	Title = 'Available',
-	Content = '[UPD] Slap./n others soon.'
+	Content = '[UPD] Slap.\nOthers Soon!'
 })
 
 syde:LoadSaveConfig()
+
