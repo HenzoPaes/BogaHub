@@ -9,15 +9,15 @@ syde:Load({
 	AutoLoad = false,
 	Socials = {
 		{
-			Name = 'Discord';
+			Name = 'No Discord';
 			Style = 'Discord';
-			Size = "Large";
-			CopyToClip = true
+			Size = "Small";
+			CopyToClip = false
 		},
 		{
 			Name = 'GitHub';
 			Style = 'GitHub';
-			Size = "Small";
+			Size = "Large";
 			CopyToClip = true
 		}
 	},
