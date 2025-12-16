@@ -1,6 +1,6 @@
 -- ==========================================
 -- BOGA HUB - Script Melhorado
--- Versão: 0.12
+-- Versão: 0.13
 -- ==========================================
 
 -- Carregamento das bibliotecas
@@ -238,6 +238,19 @@ elseif PlaceId == 142823291
             )
         end,
     }, "BTN_Yarhm")
+
+    GameGroupbox:CreateButton({
+        Name = "Stelarium (PC & Mobile)",
+        Icon = NebulaIcons:GetIcon('bolt', 'Material'),
+        Tooltip = "",
+        Style = 2,
+        Callback = function()
+            LoadScript(
+                'https://rawscripts.net/raw/Universal-Script-Stelarium-Hub-Keyless-74307',
+                "Stelarium"
+            )
+        end,
+    }, "BTN_Stelarium")
 else
     -- JOGO NÃO SUPORTADO
     print("[BOGA HUB] Jogo não suportado - PlaceId:", PlaceId)
