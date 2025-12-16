@@ -1,6 +1,6 @@
 -- ==========================================
--- BOGA HUB - Script Melhorado
--- Versão: 0.12
+-- BOGA HUB
+-- Versão: 0.13
 -- ==========================================
 
 -- Carregamento das bibliotecas
@@ -16,7 +16,8 @@ local GamesSupported = {
     [79137923166591] = "[UPD] Slap",
     [142823291] = "Murder Mystery 2",
     [893973440] = "Flee the Facility",
-    [18687417158] = "Fosaken"
+    [18687417158] = "Fosaken",
+    [5118969548] = "Spider"
     -- [PlaceId] = "Nome do Jogo",
 }
 
@@ -257,6 +258,22 @@ elseif PlaceId == 142823291
             )
         end,
     }, "BTN_Stelarium")
+elseif PlaceId == 5118969548 then -- spider
+    print("[BOGA HUB] Carregando scripts para Spider...")
+
+    GameGroupbox:CreateButton({
+        Name = "Spider By Liver_zMods (PC & Mobile)",
+        Icon = NebulaIcons:GetIcon('bolt', 'Material'),
+        Tooltip = "",
+        Style = 1,
+        IndicatorStyle = 2,
+        Callback = function()
+            LoadScript(
+                'https://abre.ai/spider-lua',
+                "Spider"
+            )
+        end,
+    }, "BTN_SPIDER")
 else
     -- JOGO NÃO SUPORTADO
     print("[BOGA HUB] Jogo não suportado - PlaceId:", PlaceId)
