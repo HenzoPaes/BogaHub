@@ -1,6 +1,6 @@
 -- ==========================================
 -- BOGA HUB - Script Melhorado
--- Versão: 0.13
+-- Versão: 0.12
 -- ==========================================
 
 -- Carregamento das bibliotecas
@@ -146,10 +146,10 @@ local function ShowNotification(title, content, icon)
 end
 
 -- Função para carregar script com tratamento de erro
-local function LoadScript(url, scriptName)
+local function LoadScript(url, scriptName, Value)
     local success, err = pcall(function()
         ShowNotification("Carregando", scriptName .. " está sendo carregado...", "hourglass_empty")
-        loadstring(game:HttpGet(url, true))()
+        loadstring(game:HttpGet(url, Value or true))()
         ShowNotification("Sucesso", scriptName .. " carregado com sucesso!", "check_circle")
     end)
     
@@ -172,6 +172,7 @@ UniversalGroupbox:CreateButton({
     Icon = NebulaIcons:GetIcon('all_inclusive', 'Material'),
     Tooltip = "Creditos: Sirius + Infinite Yield",
     Style = 1,
+    IndicatorStyle = 2,
     Callback = function()
         LoadScript(
             'https://rawscripts.net/raw/Universal-Script-Sirius-Reborn-Hub-74262',
@@ -185,6 +186,7 @@ UniversalGroupbox:CreateButton({
     Icon = NebulaIcons:GetIcon('all_inclusive', 'Material'),
     Tooltip = "Classico Infinite Yield",
     Style = 2,
+    IndicatorStyle = 2,
     Callback = function()
         LoadScript(
             'https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua',
@@ -223,7 +225,7 @@ if PlaceId == 79137923166591 then
 elseif PlaceId == 142823291
    or PlaceId == 893973440
    or PlaceId == 18687417158 then-- MM2 / FTF / FSK
-    print("[BOGA HUB] Carregando scripts para MM2 /FTF / FSK...")
+    print("[BOGA HUB] Carregando scripts para MM2 / FTF / FSK...")
     
     -- Botão Yarhm
     GameGroupbox:CreateButton({
@@ -231,23 +233,27 @@ elseif PlaceId == 142823291
         Icon = NebulaIcons:GetIcon('bolt', 'Material'),
         Tooltip = "",
         Style = 1,
+        IndicatorStyle = 2,
         Callback = function()
             LoadScript(
-                'https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/yarhm.lua',
-                "Yarhm"
+                'https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/source/yarhm/1.20/yarhm.lua',
+                "Yarhm",
+                false
             )
         end,
     }, "BTN_Yarhm")
 
     GameGroupbox:CreateButton({
-        Name = "Stelarium (PC & Mobile)",
+        Name = "Stelarium Hub (PC & Mobile)",
         Icon = NebulaIcons:GetIcon('bolt', 'Material'),
         Tooltip = "",
         Style = 2,
+        IndicatorStyle = 2,
         Callback = function()
             LoadScript(
                 'https://rawscripts.net/raw/Universal-Script-Stelarium-Hub-Keyless-74307',
-                "Stelarium"
+                "Stelarium Hub",
+                false
             )
         end,
     }, "BTN_Stelarium")
