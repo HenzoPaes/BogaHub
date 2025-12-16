@@ -1,110 +1,86 @@
-local Luna = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/luna", true))()
+local Starlight = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/starlight"))()  
 
-local Window = Luna:CreateWindow({
-    Name = "Boga Hub", -- This Is Title Of Your Window
-    Subtitle = nil, -- A Gray Subtitle next To the main title.
-    LogoID = "9980452590", -- The Asset ID of your logo. Set to nil if you do not have a logo for Luna to use.
-    LoadingEnabled = true, -- Whether to enable the loading animation. Set to false if you do not want the loading screen or have your own custom one.
-    LoadingTitle = "Boga Hub Loading!", -- Header for loading screen
-    LoadingSubtitle = "by Boda_Grande", -- Subtitle for loading screen
+local NebulaIcons = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/nebula-icon-library-loader"))()
 
-    ConfigSettings = {
-        RootFolder = true, -- The Root Folder Is Only If You Have A Hub With Multiple Game Scripts and u may remove it. DO NOT ADD A SLASH
-        ConfigFolder = "Boga Hub" -- The Name Of The Folder Where Luna Will Store Configs For This Script. DO NOT ADD A SLASH
+local Window = Starlight:CreateWindow({
+    Name = "Boga Hub",
+    Subtitle = "v0.1",
+    Icon = 9980452590,
+
+    LoadingSettings = {
+        Title = "Boga Hub",
+        Subtitle = "Welcome to Boga Hub",
+        Logo = 9980452590
     },
 
-    KeySystem = false, -- As Of Beta 6, Luna Has officially Implemented A Key System!
-    KeySettings = {
-        Title = "Luna Example Key",
-        Subtitle = "Key System",
-        Note = "Best Key System Ever! Also, Please Use A HWID Keysystem like Pelican, Luarmor etc. that provide key strings based on your HWID since putting a simple string is very easy to bypass",
-        SaveInRoot = false, -- Enabling will save the key in your RootFolder (YOU MUST HAVE ONE BEFORE ENABLING THIS OPTION)
-        SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-        Key = {"Example Key"}, -- List of keys that will be accepted by the system, please use a system like Pelican or Luarmor that provide key strings based on your HWID since putting a simple string is very easy to bypass
-        SecondAction = {
-            Enabled = true, -- Set to false if you do not want a second action,
-            Type = "Link", -- Link / Discord.
-            Parameter = "" -- If Type is Discord, then put your invite link (DO NOT PUT DISCORD.GG/). Else, put the full link of your key system here.
-        }
+    FileSettings = {
+        ConfigFolder = "BogaHub"
+    },
+})
+
+Window:CreateHomeTab({
+    -- Logic is done this way to not immediately rule out unknown executors.
+    -- For example, if Delta is confirmed to break with your script, it can go in Unsupported.
+    -- If users use Trigon but you don't have it/unsure whether it works, it can be left out and marked as a maybe
+
+    SupportedExecutors = {}, 
+    UnsupportedExecutors = {},
+
+    DiscordInvite = "", -- The Discord Invite Link. Do Not Include discord.gg/ | Only Include the code.
+    Backdrop = nil, -- A Custom Image to use for the backdrop. Set to 0 to use the Game's Thumbnail. Defaults To A Roblox Void. Set to a blank image to not use.  
+
+    IconStyle = 1, -- 1 for solid, 2 for outline
+
+    Changelog = {
+        -- Pass Tables For Each Update
+        
+        {
+            Title = "v0.1",
+            Date = "15/12/25",
+            Description = "Created Repo in github \n end",
+        },
     }
 })
 
-local GameTab = Window:CreateTab({
-    Name = "Scripts",
-    Icon = "gamepad-2",
-    ImageSource = "Lucide",
-    ShowTitle = false -- This will determine whether the big header text in the tab will show
-})
-local MiscTab = Window:CreateTab({
-    Name = "Misc",
-    Icon = "more-vertical",
-    ImageSource = "Lucide",
-    ShowTitle = false -- This will determine whether the big header text in the tab will show
-})
-local AvailableTab = Window:CreateTab({
-    Name = "Available",
-    Icon = "check-circle-2",
-    ImageSource = "Lucide",
-    ShowTitle = false -- This will determine whether the big header text in the tab will show
-})
+local Tabs = {
+    GameTab = Window:CreateTabSection("ASd",true),
+    MiscTab = Window:CreateTabSection("ASd",true),
+    AvailableTab = Window:CreateTabSection("ASd",true),
+}
 
-Window:CreateHomeTab()
-
-GameTab:CreateSection("Scripts")
+local GameTabGroup = Tabs.GameTab:CreateGroupbox({
+    Name = "GameTabGroup",
+    Column = 1,
+}, "GameTabGroup")
+local Text = GameTabGroup:CreateLabel({
+        Name = "Game Tab"
+}, "GameTabGroup1")
 
 local PID = game.PlaceId
 print("DEBUG PlaceId:", PID)
 
 if PID == 79137923166591 then -- slap
-    local Label = Tab:CreateLabel({
-        Text = "[UPD] Slap",
-        Style = 1 -- Luna Labels Have 3 Styles : A Basic Label, A Green Information Label and A Red Warning Label. Look At The Following Image For More Details
-    })
-    GameTab:CreateButton({
-        Name = "Insta Dodge (PC)",
-        Description = "Insta Dodge, free win",
-        Callback = function()
-            pcall(function()
+	local Button = GameTabGroup:CreateButton({
+    Name = "Insta Dodge (PC)",
+    Icon = NebulaIcons:GetIcon('check', 'Material'),
+    Callback = function()
+        pcall(function()
 				loadstring(game:HttpGet(
 					'https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium',
 					true
 				))()
-			end)
+		end)
 
-            Luna:Notification({ 
-                Title = "Loading Script",
-                Icon = "sparkle",
-                ImageSource = "Material",
-                Content = "Insta Dodge Loading!"
-            })
-        end
-    })
+        local Notifications = Starlight:Notification({
+            Title = "Loading Script",
+            Icon = NebulaIcons:GetIcon('sparkle', 'Material'),
+            Content = "Insta Dodge Loading!",
+        }, "GameTabGroup3")
+    end,
+}, "GameTabGroup2")
 else
-	GameTab:CreateParagraph({
-        Title = "Game not supported!",
-        Text = 'Detected PlaceId: [' .. PID .. "] /" .. game.Name
-    })
+	Tabs.GameTab:Paragraph({
+		Title = 'Game not supported',
+		Content = 'Detected PlaceId: ' .. PID
+	})
 end
-
-MiscTab:CreateParagraph({
-    Title = "Others Scripts",
-    Text = "Soon."
-})
-
-AvailableTab:CreateParagraph({
-    Title = "Available",
-    Text = "[UPD] Slap.\n Others Soon!"
-})
-
-Luna:Notification({ 
-    Title = "Boga Hub Loaded",
-    Icon = "notifications_active",
-    ImageSource = "Material",
-    Content = "Have Fun!"
-})
-
-Window:CreateHomeTab({
-    Icon = 1, -- By Default, The Icon Is The Home Icon. If You would like to change it to dashboard, replace the interger with 2
-})
-
-Luna:LoadAutoloadConfig()
