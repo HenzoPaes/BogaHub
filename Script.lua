@@ -107,24 +107,24 @@ print("========================================")
 -- ==========================================
 
 local UniversalTab = Tabs.UniversalTab:CreateTab({
-    Name = "Universal Scripts",
+    Name = "",
     Icon = NebulaIcons:GetIcon('public', 'Material'),
     Columns = 1,
 }, "Universal_TAB")
 
 local UniversalGroupbox = UniversalTab:CreateGroupbox({
-    Name = "Universal Scripts",
+    Name = "",
     Column = 1,
 }, "Universal_GROUPBOX")
 
 local GameTab = Tabs.GameTab:CreateTab({
-    Name = GameName,
+    Name = "",
     Icon = NebulaIcons:GetIcon('sports_esports', 'Material'),
-    Columns = 2,
+    Columns = 1,
 }, "GAME_TAB")
 
 local GameGroupbox = GameTab:CreateGroupbox({
-    Name = GameName,
+    Name = "",
     Column = 1,
 }, "GAME_GROUPBOX")
 
@@ -171,7 +171,7 @@ UniversalGroupbox:CreateButton({
     Style = 1,
     Callback = function()
         LoadScript(
-            'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Sirius-Reborn-Hub-74262"))()',
+            'https://rawscripts.net/raw/Universal-Script-Sirius-Reborn-Hub-74262',
             "Inifinite Yield - 2.0"
          )
     end,
@@ -184,7 +184,7 @@ UniversalGroupbox:CreateButton({
     Style = 2,
     Callback = function()
         LoadScript(
-            'loadstring(game:HttpGet("https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua"))()',
+            'https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua',
             "Inifinite Yield - 1.0"
          )
     end,
