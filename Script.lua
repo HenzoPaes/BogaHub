@@ -20,13 +20,13 @@ local GamesSupported = {
 -- Configuração da janela
 local WindowConfig = {
     Name = "Boga Hub",
-    Subtitle = "v0.12",
-    Icon = 9117914849,
+    Subtitle = "v0.13",
+    Icon = 595029582,
     
     LoadingSettings = {
         Title = "Boga Hub",
         Subtitle = "Criado por @boda_Grande",
-        Logo = 9117914849
+        Logo = 595029582
     },
     
     FileSettings = {
@@ -53,6 +53,11 @@ Window:CreateHomeTab({
     
     Changelog = {
         {
+            Title = "v0.13",
+            Date = "16/12/25",
+            Description = "• Adicionada aba Universal Scripts\n• Inclusão de scripts universais (Infinite Yield 1.0 e 2.0)\n• Reorganização das abas e groupboxes\n• Melhor integração com Nebula Icons\n• Logs de debug aprimorados\n• Preparação da base para novos jogos"
+        },
+        {
             Title = "v0.12",
             Date = "16/12/25",
             Description = "• Corrigido bug do PlaceId\n• Melhorada organização do código\n• Adicionado tratamento de erros\n• Interface otimizada"
@@ -68,6 +73,7 @@ Window:CreateHomeTab({
             Description = "• Repositório criado no GitHub\n• Versão inicial"
         }
     }
+
 })
 
 -- ==========================================
@@ -75,7 +81,10 @@ Window:CreateHomeTab({
 -- ==========================================
 
 local Tabs = {
-    GameTab = Window:CreateTabSection("Script", true),
+    UniversalTab = Window:CreateTabSection("Universal Script", false),
+    --FeTab = Window:CreateTabSection("Fe Script", false),
+    --SettingsTab = Window:CreateTabSection("Hub Settings", false),
+    GameTab = Window:CreateTabSection("Script", false),
     -- MiscTab = Window:CreateTabSection("Misc", true),
     -- AvailableTab = Window:CreateTabSection("Available", true),
 }
@@ -96,6 +105,17 @@ print("========================================")
 -- ==========================================
 -- CRIAÇÃO DA TAB DO JOGO
 -- ==========================================
+
+local UniversalTab = Tabs.UniversalTab:CreateTab({
+    Name = "Universal Scripts",
+    Icon = NebulaIcons:GetIcon('public', 'Material'),
+    Columns = 1,
+}, "Universal_TAB")
+
+local UniversalGroupbox = UniversalTab:CreateGroupbox({
+    Name = "Universal Scripts",
+    Column = 1,
+}, "Universal_GROUPBOX")
 
 local GameTab = Tabs.GameTab:CreateTab({
     Name = GameName,
@@ -135,6 +155,46 @@ local function LoadScript(url, scriptName)
         warn("[BOGA HUB] Erro ao carregar script:", err)
     end
 end
+
+-- ==========================================
+-- UNIVERSAL SCRIPTS
+-- ==========================================
+
+UniversalGroupbox:CreateLabel({
+    Name = "Universal Scripts"
+}, "Uni_Title")
+
+UniversalGroupbox:CreateButton({
+    Name = "Infinite Yield - 2.0",
+    Icon = NebulaIcons:GetIcon('all_inclusive', 'Material'),
+    Tooltip = "Creditos: Sirius + Infinite Yield",
+    Style = 1,
+    Callback = function()
+        LoadScript(
+            'loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Sirius-Reborn-Hub-74262"))()',
+            "Inifinite Yield - 2.0"
+         )
+    end,
+}, "Infinite_Yield_2")
+
+UniversalGroupbox:CreateButton({
+    Name = "Infinite Yield - 1.0",
+    Icon = NebulaIcons:GetIcon('all_inclusive', 'Material'),
+    Tooltip = "Classico Infinite Yield",
+    Style = 2,
+    Callback = function()
+        LoadScript(
+            'loadstring(game:HttpGet("https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua"))()',
+            "Inifinite Yield - 1.0"
+         )
+    end,
+}, "Infinite_Yield_1")
+
+local Divider = UniversalGroupbox:CreateDivider()
+
+UniversalGroupbox:CreateLabel({
+    Name = "Mais em breve..."
+}, "Uni_EndT")
 
 -- ==========================================
 -- SCRIPTS POR JOGO
