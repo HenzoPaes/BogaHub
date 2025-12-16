@@ -1,4 +1,4 @@
-# BogaHub | Version 0.1
+# BogaHub | Version 0.11
 ### Universal Hub for Roblox Exploits
 
 BogaHub is a universal exploit hub for Roblox, focused on simplicity, performance, and ease of use.
