@@ -29,7 +29,7 @@ Window:CreateHomeTab({
     DiscordInvite = "", -- The Discord Invite Link. Do Not Include discord.gg/ | Only Include the code.
     Backdrop = nil, -- A Custom Image to use for the backdrop. Set to 0 to use the Game's Thumbnail. Defaults To A Roblox Void. Set to a blank image to not use.  
 
-    IconStyle = 1, -- 1 for solid, 2 for outline
+    IconStyle = 2, -- 1 for solid, 2 for outline
 
     Changelog = {
         -- Pass Tables For Each Update
@@ -43,9 +43,9 @@ Window:CreateHomeTab({
 })
 
 local Tabs = {
-    GameTab = Window:CreateTabSection("ASd",true),
-    MiscTab = Window:CreateTabSection("ASd",true),
-    AvailableTab = Window:CreateTabSection("ASd",true),
+    GameTab = Window:CreateTabSection("Script",true),
+    --MiscTab = Window:CreateTabSection("Misc",true),
+    --AvailableTab = Window:CreateTabSection("Available",true),
 }
 
 local GameTabGroup = Tabs.GameTab:CreateGroupbox({
@@ -54,30 +54,30 @@ local GameTabGroup = Tabs.GameTab:CreateGroupbox({
 }, "GameTabGroup")
 local Text = GameTabGroup:CreateLabel({
         Name = "Game Tab"
-}, "GameTabGroup1")
+}, "GameTabGroup")
 
 local PID = game.PlaceId
 print("DEBUG PlaceId:", PID)
 
 if PID == 79137923166591 then -- slap
 	local Button = GameTabGroup:CreateButton({
-    Name = "Insta Dodge (PC)",
-    Icon = NebulaIcons:GetIcon('check', 'Material'),
-    Callback = function()
-        pcall(function()
-				loadstring(game:HttpGet(
-					'https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium',
-					true
-				))()
-		end)
+        Name = "Insta Dodge (PC)",
+        Icon = NebulaIcons:GetIcon('check', 'Material'),
+        Callback = function()
+            pcall(function()
+				    loadstring(game:HttpGet(
+					    'https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium',
+					    true
+				    ))()
+		    end)
 
-        local Notifications = Starlight:Notification({
-            Title = "Loading Script",
-            Icon = NebulaIcons:GetIcon('sparkle', 'Material'),
-            Content = "Insta Dodge Loading!",
-        }, "GameTabGroup3")
-    end,
-}, "GameTabGroup2")
+            local Notifications = Starlight:Notification({
+                Title = "Loading Script",
+                Icon = NebulaIcons:GetIcon('sparkle', 'Material'),
+                Content = "Insta Dodge Loading!",
+            }, "Notfy")
+        end,
+    }, "GameTabGroup")
 else
 	Tabs.GameTab:Paragraph({
 		Title = 'Game not supported',
