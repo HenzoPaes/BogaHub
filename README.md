@@ -1,22 +1,32 @@
-# BogaHub | Version 0.13
-### Universal Hub for Roblox Exploits
+# 🌌 Boga Hub | v0.14
+> **A modular and high-performance exploit hub for Roblox.**
 
-BogaHub is a universal exploit hub for Roblox, focused on simplicity, performance, and ease of use.
-Developed by @Boda_Grande
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+![Version](https://img.shields.io/badge/Version-0.14-blue)
+![Language](https://img.shields.io/badge/Language-Lua-orange)
+
+Boga Hub is a multi-game script hub designed with a modular architecture. It provides a clean interface and optimized scripts for a variety of popular Roblox titles, ensuring a smooth and lag-free experience.
+
+---
 
 ## 🎮 Supported Games
-- **[UPD] Slap**
-- **Murder Mystery 2**
-- **Flee The Facility**
-- **Forsaken**
-- **Spider**
+Currently, Boga Hub supports the following titles:
 
-> More games will be added in future updates.
+| Game | Category | Features |
+| :--- | :--- | :--- |
+| **Blind Shoot** 🎯 | Shooter | Aimbot/ESP (Supported) |
+| **[UPD] Slap** 🧤 | Action | Insta Dodge, Auto Farm |
+| **Murder Mystery 2** 🔪 | Mystery | Yarhm / Stelarium Integration |
+| **Flee The Facility** 🏃 | Survival | Map Esp / Interaction |
+| **Forsaken** 🛡️ | RPG | Multi-script Support |
+| **Spider** 🕷️ | Horror | Special Cheats |
+| **Universal** 🌍 | Global | Infinite Yield / Sirius Hub |
 
-## 🚀 How to Use
-1. Open your executor  
-2. Copy and paste the script below into it  
-3. Execute and enjoy  
+---
+
+## 🚀 Installation & Usage
+
+To run **Boga Hub**, copy the script below and paste it into your preferred executor (Fluxus, Delta, Wave, Solara, etc.):
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/BogaDev221/BogaHub/refs/heads/main/Script.lua"))()
+loadstring(game:HttpGet("[https://raw.githubusercontent.com/BogaDev221/BogaHub/refs/heads/main/Script.lua](https://raw.githubusercontent.com/BogaDev221/BogaHub/refs/heads/main/Script.lua)"))()
