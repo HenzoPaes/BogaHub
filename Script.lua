@@ -1,314 +1,223 @@
 -- ==========================================
--- BOGA HUB
--- Versão: 0.13
+-- BOGA HUB - REFACTORED
+-- Versão: 0.14 (Modular)
 -- ==========================================
 
--- Carregamento das bibliotecas
-local Starlight = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/starlight"))()  
+local Players = game:GetService("Players")
+local PlaceId = game.PlaceId
+
+-- ==========================================
+-- 1. CARREGAMENTO DE BIBLIOTECAS
+-- ==========================================
+local Starlight = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/starlight"))()
 local NebulaIcons = loadstring(game:HttpGet("https://raw.nebulasoftworks.xyz/nebula-icon-library-loader"))()
 
 -- ==========================================
--- CONFIGURAÇÕES
+-- 2. FUNÇÕES AUXILIARES (HELPERS)
 -- ==========================================
 
--- Jogos suportados
-local GamesSupported = {
-    [79137923166591] = "[UPD] Slap",
-    [142823291] = "Murder Mystery 2",
-    [893973440] = "Flee the Facility",
-    [18687417158] = "Fosaken",
-    [5118969548] = "Spider"
-    -- [PlaceId] = "Nome do Jogo",
-}
-
--- Configuração da janela
-local WindowConfig = {
-    Name = "Boga Hub",
-    Subtitle = "v0.13",
-    Icon = 595029582,
-    
-    LoadingSettings = {
-        Title = "Boga Hub",
-        Subtitle = "Criado por @boda_Grande",
-        Logo = 595029582
-    },
-    
-    FileSettings = {
-        ConfigFolder = "BogaHub"
-    },
-}
-
--- ==========================================
--- INICIALIZAÇÃO DA JANELA
--- ==========================================
-
-local Window = Starlight:CreateWindow(WindowConfig)
-
--- Criação da aba Home
-Window:CreateHomeTab({
-    SupportedExecutors = {
-    }, 
-    UnsupportedExecutors = {
-    },
-    
-    DiscordInvite = "",
-    Backdrop = nil,
-    IconStyle = 2,
-    
-    Changelog = {
-        {
-            Title = "v0.13",
-            Date = "16/12/25",
-            Description = "• Adicionada aba Universal Scripts\n• Inclusão de scripts universais (Infinite Yield 1.0 e 2.0)\n• Reorganização das abas e groupboxes\n• Melhor integração com Nebula Icons\n• Logs de debug aprimorados\n• Preparação da base para novos jogos"
-        },
-        {
-            Title = "v0.12",
-            Date = "16/12/25",
-            Description = "• Corrigido bug do PlaceId\n• Melhorada organização do código\n• Adicionado tratamento de erros\n• Interface otimizada"
-        },
-        {
-            Title = "v0.11",
-            Date = "16/12/25",
-            Description = "• Erros corrigidos\n• Melhorias gerais"
-        },
-        {
-            Title = "v0.1",
-            Date = "15/12/25",
-            Description = "• Repositório criado no GitHub\n• Versão inicial"
-        }
-    }
-
-})
-
--- ==========================================
--- CRIAÇÃO DAS ABAS
--- ==========================================
-
-local Tabs = {
-    UniversalTab = Window:CreateTabSection("Universal Script", false),
-    --FeTab = Window:CreateTabSection("Fe Script", false),
-    --SettingsTab = Window:CreateTabSection("Hub Settings", false),
-    GameTab = Window:CreateTabSection("Script", false),
-    -- MiscTab = Window:CreateTabSection("Misc", true),
-    -- AvailableTab = Window:CreateTabSection("Available", true),
-}
-
--- ==========================================
--- DETECÇÃO DO JOGO
--- ==========================================
-
-local PlaceId = game.PlaceId
-local GameName = GamesSupported[PlaceId] or "Jogo não suportado"
-
-print("========================================")
-print("BOGA HUB - Debug Info")
-print("PlaceId detectado:", PlaceId)
-print("Nome do jogo:", GameName)
-print("========================================")
-
--- ==========================================
--- CRIAÇÃO DA TAB DO JOGO
--- ==========================================
-
-local UniversalTab = Tabs.UniversalTab:CreateTab({
-    Name = "Universal Scripts",
-    Icon = NebulaIcons:GetIcon('public', 'Material'),
-    Columns = 1,
-}, "Universal_TAB")
-
-local UniversalGroupbox = UniversalTab:CreateGroupbox({
-    Name = "Universal Scripts",
-    Column = 1,
-}, "Universal_GROUPBOX")
-
-local GameTab = Tabs.GameTab:CreateTab({
-    Name = GameName,
-    Icon = NebulaIcons:GetIcon('sports_esports', 'Material'),
-    Columns = 1,
-}, "GAME_TAB")
-
-local GameGroupbox = GameTab:CreateGroupbox({
-    Name = GameName,
-    Column = 1,
-}, "GAME_GROUPBOX")
-
--- ==========================================
--- FUNÇÕES AUXILIARES
--- ==========================================
-
--- Função para mostrar notificação
-local function ShowNotification(title, content, icon)
-    icon = icon or 'info'
+local function Notify(title, content, icon)
     Starlight:Notification({
         Title = title,
-        Icon = NebulaIcons:GetIcon(icon, 'Material'),
+        Icon = NebulaIcons:GetIcon(icon or 'info', 'Material'),
         Content = content,
     }, "Notify")
 end
 
--- Função para carregar script com tratamento de erro
-local function LoadScript(url, scriptName, Value)
-    local success, err = pcall(function()
-        ShowNotification("Carregando", scriptName .. " está sendo carregado...", "hourglass_empty")
-        loadstring(game:HttpGet(url, Value or true))()
-        ShowNotification("Sucesso", scriptName .. " carregado com sucesso!", "check_circle")
+local function ExecuteScript(scriptData)
+    local url = scriptData.Url
+    local name = scriptData.Name
+    local useCache = scriptData.Cache ~= false -- Padrão é true, a menos que especificado
+
+    task.spawn(function()
+        local success, err = pcall(function()
+            Notify("Carregando", "Injetando " .. name .. "...", "hourglass_empty")
+            loadstring(game:HttpGet(url, useCache))()
+            Notify("Sucesso", name .. " injetado!", "check_circle")
+        end)
+
+        if not success then
+            Notify("Erro", "Falha ao injetar " .. name, "error")
+            warn("[BOGA HUB] Erro:", err)
+        end
     end)
-    
-    if not success then
-        ShowNotification("Erro", "Falha ao carregar " .. scriptName .. ": " .. tostring(err), "error")
-        warn("[BOGA HUB] Erro ao carregar script:", err)
-    end
 end
 
 -- ==========================================
--- UNIVERSAL SCRIPTS
+-- 3. BANCO DE DADOS DE SCRIPTS (CONFIGURAÇÃO)
 -- ==========================================
 
-UniversalGroupbox:CreateLabel({
-    Name = "Universal Scripts"
-}, "Uni_Title")
-
-UniversalGroupbox:CreateButton({
-    Name = "Infinite Yield / Sirius Hub - 2.0",
-    Icon = NebulaIcons:GetIcon('all_inclusive', 'Material'),
-    Tooltip = "Creditos: Sirius + Infinite Yield",
-    Style = 1,
-    IndicatorStyle = 2,
-    Callback = function()
-        LoadScript(
-            'https://rawscripts.net/raw/Universal-Script-Sirius-Reborn-Hub-74262',
-            "Infinite Yield / Sirius Hub - 2.0"
-         )
-    end,
-}, "Infinite_Yield_2")
-
-UniversalGroupbox:CreateButton({
-    Name = "Infinite Yield - 1.0",
-    Icon = NebulaIcons:GetIcon('all_inclusive', 'Material'),
-    Tooltip = "Classico Infinite Yield",
-    Style = 2,
-    IndicatorStyle = 2,
-    Callback = function()
-        LoadScript(
-            'https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua',
-            "Infinite Yield - 1.0"
-         )
-    end,
-}, "Infinite_Yield_1")
-
-local Divider = UniversalGroupbox:CreateDivider()
-
-UniversalGroupbox:CreateLabel({
-    Name = "Mais em breve..."
-}, "Uni_EndT")
-
--- ==========================================
--- SCRIPTS POR JOGO
--- ==========================================
-
-if PlaceId == 79137923166591 then
-    -- SLAP
-    print("[BOGA HUB] Carregando scripts para Slap...")
-    
-    -- Botão Insta Dodge
-    GameGroupbox:CreateButton({
-        Name = "Insta Dodge (PC)",
-        Icon = NebulaIcons:GetIcon('bolt', 'Material'),
-        Tooltip = "",
-        Style = 2,
-        Callback = function()
-            LoadScript(
-                'https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium',
-                "Insta Dodge"
-            )
-        end,
-    }, "BTN_INSTA_DODGE")
-elseif PlaceId == 142823291
-   or PlaceId == 893973440
-   or PlaceId == 18687417158 then-- MM2 / FTF / FSK
-    print("[BOGA HUB] Carregando scripts para MM2 / FTF / FSK...")
-    
-    -- Botão Yarhm
-    GameGroupbox:CreateButton({
-        Name = "Yarhm (PC & Mobile)",
-        Icon = NebulaIcons:GetIcon('bolt', 'Material'),
-        Tooltip = "",
+-- Lista de Scripts Universais
+local UniversalScripts = {
+    {
+        Name = "Infinite Yield / Sirius Hub - 2.0",
+        Url = "https://rawscripts.net/raw/Universal-Script-Sirius-Reborn-Hub-74262",
+        Icon = "all_inclusive",
         Style = 1,
-        IndicatorStyle = 2,
-        Callback = function()
-            LoadScript(
-                'https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/source/yarhm/1.20/yarhm.lua',
-                "Yarhm",
-                false
-            )
-        end,
-    }, "BTN_Yarhm")
-
-    GameGroupbox:CreateButton({
-        Name = "Stelarium Hub (PC & Mobile)",
-        Icon = NebulaIcons:GetIcon('bolt', 'Material'),
-        Tooltip = "",
+        Tooltip = "Creditos: Sirius + Infinite Yield"
+    },
+    {
+        Name = "Infinite Yield - 1.0",
+        Url = "https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua",
+        Icon = "all_inclusive",
         Style = 2,
-        IndicatorStyle = 2,
-        Callback = function()
-            LoadScript(
-                'https://rawscripts.net/raw/Universal-Script-Stelarium-Hub-Keyless-74307',
-                "Stelarium Hub",
-                false
-            )
-        end,
-    }, "BTN_Stelarium")
-elseif PlaceId == 5118969548 then -- spider
-    print("[BOGA HUB] Carregando scripts para Spider...")
+        Tooltip = "Clássico"
+    }
+}
 
-    GameGroupbox:CreateButton({
-        Name = "Spider By Liver_zMods (PC & Mobile)",
-        Icon = NebulaIcons:GetIcon('bolt', 'Material'),
-        Tooltip = "",
-        Style = 1,
+-- Definição dos pacotes de script por Categoria/Jogo
+local GameScriptsDB = {
+    ["Slap"] = {
+        {
+            Name = "Insta Dodge (PC)",
+            Url = "https://raw.githubusercontent.com/rapierhub/loader/refs/heads/main/Pandemonium",
+            Icon = "bolt",
+            Style = 2
+        }
+    },
+    ["MM2_Bundle"] = { -- Usado para MM2, FTF, FSK
+        {
+            Name = "Yarhm (PC & Mobile)",
+            Url = "https://raw.githubusercontent.com/Joystickplays/psychic-octo-invention/main/source/yarhm/1.20/yarhm.lua",
+            Icon = "bolt",
+            Style = 1,
+            Cache = false
+        },
+        {
+            Name = "Stelarium Hub",
+            Url = "https://rawscripts.net/raw/Universal-Script-Stelarium-Hub-Keyless-74307",
+            Icon = "bolt",
+            Style = 2,
+            Cache = false
+        }
+    },
+    ["Spider"] = {
+        {
+            Name = "Spider By Liver_zMods",
+            Url = "https://abre.ai/spider-lua",
+            Icon = "bolt",
+            Style = 1
+        }
+    },
+	["BlindSt"] = {
+        {
+            Name = "Script - 1",
+            Url = "https://pastebin.com/raw/vjB2N8PE",
+            Icon = "bolt",
+            Style = 1
+        }
+    }
+}
+
+-- Mapeamento: Qual ID usa qual pacote de scripts
+local SupportedGames = {
+    [79137923166591]      = { Name = "[UPD] Slap",        DatabaseKey = "Slap" },
+    [142823291]     	  = { Name = "Murder Mystery 2",  DatabaseKey = "MM2_Bundle" },
+    [893973440]     	  = { Name = "Flee the Facility", DatabaseKey = "MM2_Bundle" },
+    [18687417158]     	  = { Name = "Forsaken",          DatabaseKey = "MM2_Bundle" },
+    [5118969548]     	  = { Name = "Spider",            DatabaseKey = "Spider" },
+    [118614517739521]     = { Name = "Blind Shoot",       DatabaseKey = "BlindSt" }
+}
+
+-- ==========================================
+-- 4. CONFIGURAÇÃO DA UI
+-- ==========================================
+
+local WindowConfig = {
+    Name = "Boga Hub",
+    Subtitle = "v0.14 - Modular",
+    Icon = 595029582,
+    LoadingSettings = {
+        Title = "Boga Hub",
+        Subtitle = "Por @boda_Grande",
+        Logo = 595029582
+    },
+    FileSettings = { ConfigFolder = "BogaHub" }
+}
+
+local Window = Starlight:CreateWindow(WindowConfig)
+
+-- ==========================================
+-- 5. CONSTRUÇÃO DAS ABAS (AUTOMATIZADA)
+-- ==========================================
+
+-- >> Aba Home
+Window:CreateHomeTab({
+    SupportedExecutors = {}, UnsupportedExecutors = {},
+    DiscordInvite = "", IconStyle = 2,
+    Changelog = {
+        { Title = "v0.14", Date = "16/01/26", Description = "• Código completamente reescrito\n• Sistema modular de jogos\n• Otimização de carregamento" }
+    }
+})
+
+-- >> Aba Universal
+local MainTab = Window:CreateTabSection("Scripts", false)
+local UniversalTab = MainTab:CreateTab({ Name = "Universal", Icon = NebulaIcons:GetIcon('public', 'Material'), Columns = 1 }, "UniTab")
+local UniGroup = UniversalTab:CreateGroupbox({ Name = "Universal Scripts", Column = 1 }, "UniGroup")
+
+-- Gerar botões universais
+for _, script in ipairs(UniversalScripts) do
+    UniGroup:CreateButton({
+        Name = script.Name,
+        Icon = NebulaIcons:GetIcon(script.Icon, 'Material'),
+        Tooltip = script.Tooltip or "",
+        Style = script.Style or 1,
         IndicatorStyle = 2,
-        Callback = function()
-            LoadScript(
-                'https://abre.ai/spider-lua',
-                "Spider"
-            )
-        end,
-    }, "BTN_SPIDER")
+        Callback = function() ExecuteScript(script) end
+    }, "UNI_" .. script.Name)
+end
+
+-- >> Aba do Jogo Detectado
+local CurrentGameData = SupportedGames[PlaceId]
+local GameTabName = CurrentGameData and CurrentGameData.Name or "Jogo Desconhecido"
+local GameTabIcon = CurrentGameData and 'sports_esports' or 'error_outline'
+
+local GameTab = MainTab:CreateTab({
+    Name = GameTabName,
+    Icon = NebulaIcons:GetIcon(GameTabIcon, 'Material'),
+    Columns = 1
+}, "GameTab")
+
+local GameGroup = GameTab:CreateGroupbox({ Name = "Scripts para " .. GameTabName, Column = 1 }, "GameGroup")
+
+if CurrentGameData then
+    -- JOGO SUPORTADO: Carregar botões do banco de dados
+    print("[BOGA HUB] Jogo suportado detectado:", GameTabName)
+    local scriptsToLoad = GameScriptsDB[CurrentGameData.DatabaseKey]
+    
+    if scriptsToLoad then
+        for _, script in ipairs(scriptsToLoad) do
+            GameGroup:CreateButton({
+                Name = script.Name,
+                Icon = NebulaIcons:GetIcon(script.Icon or 'code', 'Material'),
+                Tooltip = script.Tooltip or "",
+                Style = script.Style or 1,
+                IndicatorStyle = 2,
+                Callback = function() ExecuteScript(script) end
+            }, "GAME_" .. script.Name)
+        end
+    else
+        GameGroup:CreateLabel({ Name = "Nenhum script encontrado na DB." })
+    end
 else
     -- JOGO NÃO SUPORTADO
-    print("[BOGA HUB] Jogo não suportado - PlaceId:", PlaceId)
-    
-    GameGroupbox:CreateLabel({
-        Name = "⚠️ Jogo não suportado"
-    }, "LBL_NOT_SUPPORTED")
-    
-    GameGroupbox:CreateParagraph({
-        Name = "Informações do Jogo",
-        Content = string.format(
-            "PlaceId detectado: %d\n\nEste jogo ainda não é suportado pelo Boga Hub.\n\nSugestão: Entre em contato no Discord para solicitar suporte!",
-            PlaceId
-        ),
-    }, "PARA_GAME_INFO")
-    
-    GameGroupbox:CreateButton({
-        Name = "Copiar PlaceId",
+    print("[BOGA HUB] Jogo não suportado. ID:", PlaceId)
+    GameGroup:CreateLabel({ Name = "⚠️ Não Suportado" })
+    GameGroup:CreateParagraph({
+        Name = "Info",
+        Content = "Este jogo (ID: "..PlaceId..") ainda não está na lista.\nPeça suporte no Discord."
+    })
+    GameGroup:CreateButton({
+        Name = "Copiar ID do Jogo",
         Icon = NebulaIcons:GetIcon('content_copy', 'Material'),
-        Tooltip = "Copiar ID do jogo para a área de transferência",
-        Style = 2,
         Callback = function()
             setclipboard(tostring(PlaceId))
-            ShowNotification("Copiado", "PlaceId copiado: " .. PlaceId, "check")
-        end,
-    }, "BTN_COPY_ID")
+            Notify("Copiado", "ID: " .. PlaceId, "check")
+        end
+    })
 end
 
 -- ==========================================
 -- FINALIZAÇÃO
 -- ==========================================
-
-print("[BOGA HUB] Script carregado com sucesso!")
-ShowNotification(
-    "Bem-vindo ao Boga Hub!", 
-    "Script carregado com sucesso. Versão: " .. WindowConfig.Subtitle,
-    "rocket_launch"
-)
+Notify("Boga Hub", "Carregado com sucesso!", "rocket_launch")
