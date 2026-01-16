@@ -12,15 +12,15 @@ Boga Hub is a multi-game script hub designed with a modular architecture. It pro
 ## 🎮 Supported Games
 Currently, Boga Hub supports the following titles:
 
-| Game | Category | Features |
-| :--- | :--- | :--- |
-| **Blind Shoot** 🎯 | Shooter | Aimbot/ESP (Supported) |
-| **[UPD] Slap** 🧤 | Action | Insta Dodge, Auto Farm |
-| **Murder Mystery 2** 🔪 | Mystery | Yarhm / Stelarium Integration |
-| **Flee The Facility** 🏃 | Survival | Map Esp / Interaction |
-| **Forsaken** 🛡️ | RPG | Multi-script Support |
-| **Spider** 🕷️ | Horror | Special Cheats |
-| **Universal** 🌍 | Global | Infinite Yield / Sirius Hub |
+| Game | Category |
+| :--- | :--- |
+| **Blind Shoot** 🎯 | Shooter - Blind
+| **[UPD] Slap** 🧤 | Action
+| **Murder Mystery 2** 🔪 | Mystery 
+| **Flee The Facility** 🏃 | Survival 
+| **Forsaken** 🛡️ | RPG 
+| **Spider** 🕷️ | Horror 
+| **Universal** 🌍 | Global 
 
 ---
 
